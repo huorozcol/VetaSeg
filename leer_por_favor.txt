@@ -1,0 +1,8 @@
+Hola Jesus,
+Debido que no tengo el dispositivo USB, me toco comentar un par de lineas. Te voy a decir cuales son:
+
+
+en el script compare_vid_bd.py son estas dos lineas
+
+#import open_door
+#open_door.on_relay(1)

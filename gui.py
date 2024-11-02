@@ -29,15 +29,17 @@ class GUI:
         self.winroot = winroot
         self.winroot.title("VETA Seguridad - Acceso Facial -")
         self.fr_data_camara = tk.Frame(self.winroot, width=600, height=200, borderwidth=2, relief='groove').place(x=10,y=10)
-        self.ip_label = tk.Label(self.winroot, text='Ingrese la dirección de la cámara:').place(x=15,y=15)
+        self.ip_label = tk.Label(self.winroot, text='Ingrese la dirección de la cámaras:').place(x=15,y=15)
 
-        self.txb_ip_camara1 = Entry(self.winroot, width=70)
-        self.txb_ip_camara1.insert(0,"rtsp://192.168.1.172:554")
-        self.txb_ip_camara1.place(x=15,y=35)
+        self.ip_label = tk.Label(self.winroot, text='Cámara 1:').place(x=15, y=35)
+        self.txb_ip_camara1 = Entry(self.winroot, width=45)
+        self.txb_ip_camara1.insert(0,"rtsp://hugo:solkaf2008@192.168.1.64:554")
+        self.txb_ip_camara1.place(x=75,y=35)
 
-        self.txb_ip_camara2 = Entry(self.winroot, width=70)
-        self.txb_ip_camara2.insert(0, "rtsp://admin:admin@192.168.1.201:1935")
-        self.txb_ip_camara2.place(x=15, y=55)
+        self.ip_label = tk.Label(self.winroot, text='Cámara 2:').place(x=15, y=55)
+        self.txb_ip_camara2 = Entry(self.winroot, width=45)
+        self.txb_ip_camara2.insert(0, "rtsp://hugo:solkaf2008@192.168.1.164:554")
+        self.txb_ip_camara2.place(x=75, y=55)
 
         self.bt_connect_camara = (tk.Button(self.winroot, text='Conectar', command=self.get_camara_ip))
         self.bt_connect_camara.place(x=350,y=105)
@@ -63,12 +65,12 @@ class GUI:
         self.fr_data_personal = tk.Frame(self.winroot, width=600, height=200, borderwidth=2, relief='groove')
         self.fr_data_personal.place(x=10,y=270)
         self.lb_status_detect_face = tk.Label(self.fr_data_personal, text='')
-        self.bt_downl_reg = (tk.Button(self.fr_data_personal, text='Descargar Reporte', command=self.unplug_camara))
+        self.bt_downl_reg = (tk.Button(self.fr_data_personal, text='Descargar Reporte', command=self.downl_reporte))
         self.bt_downl_reg.place(x=20,y=10)
         self.lb_status_detect_face.place(x=15,y=15)
         self.ph_image_detected = tk.PhotoImage(file='')
-        self.lb_image_detected = tk.Label(self.fr_data_personal, image=self.downl_reporte())
-        self.lb_image_detected.place(x=200,y=10)
+        # self.lb_image_detected = tk.Label(self.fr_data_personal, image=self.downl_reporte())
+        # self.lb_image_detected.place(x=200,y=10)
 
     def downl_reporte(self):
 
@@ -184,11 +186,7 @@ class GUI:
         return self.sc_timer_door.get()
 
     def ult_registros(self):
-        results = crud.ult_registros()
-
-        for result in results:
-            print(result)
-
+       pass
 
 
 if __name__ == '__main__':

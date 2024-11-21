@@ -12,8 +12,6 @@ opencv-python==4.10.0.84
 packaging==24.1
 pillow==11.0.0
 pluggy==1.5.0
-pyarmor==9.0.3
-pyarmor.cli.core==7.6.0
 pytest==8.3.3
 pywinusb==0.4.2
 setuptools==75.2.0

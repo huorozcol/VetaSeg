@@ -60,8 +60,8 @@ def comparar_faces(scale, *args):
                     break
 
             if cam_n == 1:
-                # cv2.imshow("Reconocimiento facial VETA Seguridad- ", frame)
-                # cv2.waitKey(1)
+                cv2.imshow("Reconocimiento facial VETA Seguridad- ", frame)
+                cv2.waitKey(1)
                 cont_frame = +1
             else:
                 continue

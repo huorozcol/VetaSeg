@@ -8,11 +8,8 @@ from config import create_direct
 import crud
 import numpy as np
 
-
-
 def downl_reporte():
      crud.ult_registros()
-
 
 class GUI:
     def __init__(self, winroot):

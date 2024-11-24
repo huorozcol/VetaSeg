@@ -6,7 +6,8 @@ from tkinter import Entry, Scale, IntVar
 from compare_vid_bd import comparar_faces
 from config import create_direct
 import crud
-import numpy as np
+from multiprocessing import Process, cpu_count
+
 
 def downl_reporte():
      crud.ult_registros()
@@ -162,7 +163,8 @@ class GUI:
             if self.count_fr % self.sc_framerate.get() == 0 and self.ret1:
                 #comparar_faces(self.frame1,self.frame2)
                 th_showcv2 = Thread(target=comparar_faces, args=(self.zoom.get(),self.frame1,self.frame2,))
-                th_showcv2.run()
+                th_showcv2.start()
+                th_showcv2.join()
                 if self.var_cb_showcv2.get() == 1:
                     self.show_cv2()
             self.ult_registros()
@@ -192,17 +194,20 @@ class GUI:
        pass
 
 
-if __name__ == '__main__':
-
-    winroot = tk.Tk()
-
 def startall():
+    winroot = tk.Tk()
     print('funcion start all')
     app = GUI(winroot)
     winroot.geometry('640x480')
     winroot.protocol("WM_DELETE_WINDOW", app.close_gui)
     winroot.mainloop()
 #startall()
-th_startAll = Thread(target=startall, args=(), daemon=True)
-th_startAll.run()
-create_direct()
+    th_startAll = Process(target=startall, args=())
+    th_startAll.start()
+    th_startAll.join()
+
+
+if __name__ == '__main__':
+    create_direct()
+    startall()
+

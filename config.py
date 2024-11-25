@@ -1,4 +1,5 @@
 import os
+from unidecode import unidecode
 
 def faces_folder():
     return "images"
@@ -17,3 +18,12 @@ def create_direct():
         print(f"Permission denied: Unable to create '{directory_name}'.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+
+
+def eliminar_acentos(img_path):
+
+    texto = str(img_path)
+    os.rename(img_path, unidecode(img_path))
+    return unidecode(texto)
+

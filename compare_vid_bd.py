@@ -33,7 +33,6 @@ def zoomframe(frame, scale):
 def comparar_faces(scale, *args):
 
     cam_n = 1
-    #print(f'frames enviados {len(args)}')
     for frame in args:
 
         if frame is not None:
@@ -41,27 +40,32 @@ def comparar_faces(scale, *args):
             face_locations, face_names = sfr.detect_known_faces(frame)
             for face_loc, name in zip(face_locations, face_names):
                 name = name[:40]
-                # print(face_loc)
+
                 y1, x2, y2, x1 = face_loc[0], face_loc[1], face_loc[2], face_loc[3]
-                if name == 'Visitante':
+                if name == 'Desconocido':
+                    print(f"Visitante en camara {cam_n}, ============== no se abre la puerta. ======================")
                     color = rojo
                 else:
                     color = verde
-                    print('Bienvenido: ', name)
+                    print(f"Bienvenido: ', {name},  en camara {cam_n} @@@@@@@@@@@@@ Se abre la puerta @@@@@@@@@@@@@@")
+
                     #descomentar para que funcione, yo no la puedo descomentar porque no tengo el dispositvo usb y me va a tirar error
                     #open_door.on_relay(1)
 
-                cv2.putText(frame, 'Bienvenido' + name, (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 0.7, color=color)
-                cv2.rectangle(frame, (x1, y1), (x2, y2), color, 4)
+                # cv2.putText(frame, 'Bienvenido' + name, (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 0.7, color=color)
+                # cv2.rectangle(frame, (x1, y1), (x2, y2), color, 4)
                 insert_face(name, cam_n)
 
                 key = cv2.waitKey(1)
                 if key == 27:
                     break
+        cam_n += 1
+            # if cam_n == 1:
+            #
+            #     # cv2.imshow("Reconocimiento facial VETA Seguridad- ", frame)
+            #     # cv2.waitKey(1)
+            #
+            # else:
+            #     continue
 
-            if cam_n == 1:
-                cv2.imshow("Reconocimiento facial VETA Seguridad- ", frame)
-                cv2.waitKey(1)
-                cont_frame = +1
-            else:
-                continue
+

@@ -2,15 +2,19 @@
 import cv2
 import tkinter as tk
 from threading import Thread
-from tkinter import Entry, Scale, IntVar
+from tkinter import Entry, Scale, IntVar, messagebox
 from compare_vid_bd import comparar_faces
 from config import create_direct
 import crud
-import numpy as np
+import os
+from multiprocessing import Process, cpu_count
+
 
 def downl_reporte():
      crud.ult_registros()
-
+def open_images_path():
+    messagebox.showinfo("Atención", "Después de agregar o eliminar usuarios, debe cerrar y volver a abrir el programa para que los cambios tengan efecto!")
+    os.startfile(".\\images")
 class GUI:
     def __init__(self, winroot):
         self.frame2 = None
@@ -76,6 +80,8 @@ class GUI:
         self.lb_status_detect_face = tk.Label(self.fr_data_personal, text='')
         self.bt_downl_reg = (tk.Button(self.fr_data_personal, text='Descargar Reporte', command=downl_reporte))
         self.bt_downl_reg.place(x=20,y=10)
+        self.bt_downl_reg = (tk.Button(self.fr_data_personal, text='Agregar/Eliminar Personas', command=open_images_path))
+        self.bt_downl_reg.place(x=170, y=10)
         self.lb_status_detect_face.place(x=15,y=15)
         self.ph_image_detected = tk.PhotoImage(file='')
         # self.lb_image_detected = tk.Label(self.fr_data_personal, image=self.downl_reporte())
@@ -162,7 +168,8 @@ class GUI:
             if self.count_fr % self.sc_framerate.get() == 0 and self.ret1:
                 #comparar_faces(self.frame1,self.frame2)
                 th_showcv2 = Thread(target=comparar_faces, args=(self.zoom.get(),self.frame1,self.frame2,))
-                th_showcv2.run()
+                th_showcv2.start()
+                th_showcv2.join()
                 if self.var_cb_showcv2.get() == 1:
                     self.show_cv2()
             self.ult_registros()
@@ -191,7 +198,6 @@ class GUI:
     def ult_registros(self):
        pass
 
-
 if __name__ == '__main__':
 
     winroot = tk.Tk()
@@ -206,3 +212,4 @@ def startall():
 th_startAll = Thread(target=startall, args=(), daemon=True)
 th_startAll.run()
 create_direct()
+

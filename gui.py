@@ -7,6 +7,7 @@ from compare_vid_bd import comparar_faces
 from config import create_direct
 import crud
 import os
+import time
 from multiprocessing import Process, cpu_count
 
 
@@ -56,7 +57,7 @@ class GUI:
         self.bt_unplug_camara.place(x=475,y=105)
         self.lb_framerate = tk.Label(self.winroot)
         self.lb_framerate.place(x=17,y=130)
-        self.sc_framerate = Scale(self.winroot, from_=1, to=30, orient=tk.HORIZONTAL, label='Frames Skip')
+        self.sc_framerate = Scale(self.winroot, from_=1, to=50, orient=tk.HORIZONTAL, label='Frames Skip')
         self.sc_framerate.set(10)
         self.sc_framerate.place(x=15, y=145)
         # self.chb_show_cv2 = tk.Checkbutton(self.winroot, state='normal', onvalue=1, offvalue=0, text='Ver Video', variable=self.var_cb_showcv2)
@@ -66,10 +67,10 @@ class GUI:
         # self.lb_framerate.place(x=17, y=159)
 
         self.sc_timer_door = Scale(self.winroot, from_=1, to=5, orient=tk.HORIZONTAL, label='Apertura')
-        self.sc_timer_door.set(3)
+        self.sc_timer_door.set(1)
         self.sc_timer_door.place(x=182, y=145)
 
-        self.zoom = Scale(self.winroot, from_=1, to=5, orient=tk.HORIZONTAL, label='Zoom', resolution=0.2)
+        self.zoom = Scale(self.winroot, from_=1, to=5, orient=tk.HORIZONTAL, label='Zoom', resolution=0.1)
         self.zoom.set(3)
         self.zoom.place(x=352, y=145)
 
@@ -167,6 +168,7 @@ class GUI:
 
             if self.count_fr % self.sc_framerate.get() == 0 and self.ret1:
                 #comparar_faces(self.frame1,self.frame2)
+                print(time.strftime("%H:%M:%S"))
                 th_showcv2 = Thread(target=comparar_faces, args=(self.zoom.get(),self.frame1,self.frame2,))
                 th_showcv2.start()
                 th_showcv2.join()

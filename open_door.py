@@ -132,4 +132,5 @@ open_device()
 
 
 print("TURN ON 1: {} ".format(on_relay(1)))
+print("TURN ON 1: {} ".format(off_relay(1)))
 print("READ STATE 1: {}".format(read_relay_status(1)))

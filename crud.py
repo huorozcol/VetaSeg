@@ -32,4 +32,21 @@ def ult_registros():
         writer.writerow([i[0] for i in my_cursor.description])
         writer.writerows(my_cursor.fetchall())
 
-    #return  result
+
+def ult_apertura(nombre):
+    nombre = nombre
+    my_con = conn_op()
+    my_cursor = my_con.cursor()
+    sql = "select   TIMESTAMPDIFF(SECOND,fecha ,NOW()) as minutes from face_recog.registro where  nombre = %s  order by fecha desc limit 1"
+    pl = (nombre,)
+    my_cursor.execute(sql,pl)
+    result = my_cursor.fetchall()
+    if (len(result)) == 0:
+        insert_face(nombre,1)
+        return 1
+    #print(len(result))
+    return result[0][0]
+
+#ult_apertura("Hugo")
+
+

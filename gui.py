@@ -22,7 +22,6 @@ class GUI:
         self.frame1 = None
         self.selection_cb = None
         print('Instanciada la clase GUI')
-        self.img2_path = 'dbfaces/hugo1.jpeg'
         self.is_running=None
         self.flag_video_capture = False
         self.ret1 = None
@@ -41,13 +40,13 @@ class GUI:
         self.ip_label = tk.Label(self.winroot, text='Cámara 1:')
         self.ip_label.place(x=15, y=35)
         self.txb_ip_camara1 = Entry(self.winroot, width=45)
-        self.txb_ip_camara1.insert(0,"rtsp://hugo:solkaf2008@192.168.1.64:554")
+        self.txb_ip_camara1.insert(0,"rtsp://hugo:5Olkaf2008@192.168.1.64:554")
         self.txb_ip_camara1.place(x=75,y=35)
 
         self.ip_label = tk.Label(self.winroot, text='Cámara 2:')
         self.ip_label.place(x=15, y=55)
         self.txb_ip_camara2 = Entry(self.winroot, width=45)
-        self.txb_ip_camara2.insert(0, "rtsp://hugo:solkaf2008@192.168.1.164:554")
+        self.txb_ip_camara2.insert(0, "rtsp://hugo:5Olkaf2008@192.168.1.164:554")
         self.txb_ip_camara2.place(x=75, y=55)
 
         self.bt_connect_camara = (tk.Button(self.winroot, text='Conectar', command=self.get_camara_ip))
@@ -93,7 +92,6 @@ class GUI:
         self.winroot.destroy()
 
     def get_camara_ip(self):
-        #print('Intentando conexion camara 1')
         ip_camara1 = self.txb_ip_camara1.get()
         ip_camara1.replace(" ","")
 
@@ -160,29 +158,37 @@ class GUI:
                 self.ret2, self.frame2 = self.cap2.read()
 
             if self.ret1:
+                self.cap1.set(cv2.CAP_PROP_BUFFERSIZE, 5)
                 self.frame1 = cv2.resize(self.frame1,(640,480))
+            else:
+                print(f"Ocurrio un error obteniendo el frame ret1={self.ret1}")
+                #self.cap1 = cv2.VideoCapture(self.txb_ip_camara1.get())
+                self.ret1 = None
+                self.cap1 = cv2.VideoCapture(self.txb_ip_camara1.get())
+                self.ret1, self.frame1 = self.cap1.read()
 
             if self.ret2:
+                self.cap2.set(cv2.CAP_PROP_BUFFERSIZE, 5)
                 self.frame2 = cv2.resize(self.frame2, (640, 480))
+            else:
+                print(f"Ocurrio un error obteniendo el frame ret2={self.ret2}")
+                #self.cap1 = cv2.VideoCapture(self.txb_ip_camara2)
+                self.ret2 = None
+                self.cap2 = cv2.VideoCapture(self.txb_ip_camara2.get())
+                self.ret2, self.frame2 = self.cap2.read()
 
-
-            if self.count_fr % self.sc_framerate.get() == 0 and self.ret1:
+            if self.count_fr % self.sc_framerate.get() == 0 and self.ret1 and self.ret2:
                 #comparar_faces(self.frame1,self.frame2)
                 print(time.strftime("%H:%M:%S"))
                 th_showcv2 = Thread(target=comparar_faces, args=(self.zoom.get(),self.frame1,self.frame2,))
                 th_showcv2.start()
                 th_showcv2.join()
-                if self.var_cb_showcv2.get() == 1:
-                    self.show_cv2()
-            self.ult_registros()
-            self.lb_stat_camara.after(1, self.show_frames)
+
+            self.lb_stat_camara.after(50, self.show_frames)
         else:
             self.unplug_camara()
 
-    def show_cv2(self):
-        pass
-        # cv2.imshow('Camara Reconocimiento Facial - ITM -', self.frame1)
-        # cv2.waitKey(1)
+
 
     def unplug_camara(self):
         self.lb_status_detect_face.config(text="")
@@ -197,8 +203,7 @@ class GUI:
     def get_time_open(self):
         return self.sc_timer_door.get()
 
-    def ult_registros(self):
-       pass
+
 
 if __name__ == '__main__':
 

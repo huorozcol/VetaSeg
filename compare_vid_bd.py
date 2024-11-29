@@ -49,9 +49,9 @@ def comparar_faces(scale, *args):
                         insert_face(name, cam_n)
                         #descomentar para que funcione, yo no la puedo descomentar porque no tengo el dispositvo usb y me va a tirar error
                         #open_door.on_relay(1)
-                        sleep(1)
-                        # open_door.oFF_relay(1)
-                        sleep(1)
+                        #sleep(1)
+                        # open_door.off_relay(1)
+                        #sleep(1)
                     else:
                         print(f"Bienvenido: {name},  en camara {cam_n}.")
 
@@ -59,7 +59,7 @@ def comparar_faces(scale, *args):
                 if key == 27:
                     break
 
-        print(cam_n)
+        #print(cam_n)
         cam_n += 1
 
 
